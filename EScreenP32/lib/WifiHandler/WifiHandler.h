@@ -12,5 +12,4 @@
 //prototipos
 void InitWifi(void);
 void WifiMain(void *parameter);
-void OtaMain(void *parameter);
-void setupOTA(const char* nameprefix, const char* ssid, const char* password);
+void setupOTA(const char* ssid, const char* password);
