@@ -2,17 +2,21 @@
 #include "main.h"
 
 
+
+
 // put function declarations here:
-int myFunction(int, int);
 
 void setup() {
   Serial.begin(115200);
 
-  InitWifi();  
+  pinMode(LCD_ON, OUTPUT);
+  digitalWrite(LCD_ON, HIGH);
+
+  InitWifi(); 
+  InitDisplay();
 }
 
 void loop() {
-  Serial.println("Teste");
+  Serial.println("Main Loop");
   delay(1000);
 }
-
