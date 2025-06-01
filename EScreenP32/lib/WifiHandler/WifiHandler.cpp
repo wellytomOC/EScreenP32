@@ -1,8 +1,17 @@
+#include <WiFi.h>
+#include <ArduinoOTA.h>
+
 #include "WifiHandler.h"
 
 TaskHandle_t *HandlerWifi;
 
-void WifiMain(void *parameter)
+//private prototypes
+static void WifiMain(void *parameter);
+static void setupOTA(const char* ssid, const char* password);
+
+
+// Tasks
+static void WifiMain(void *parameter)
 {
   setupOTA(WIFI_SSID, WIFI_PWD);
   Serial.println("WIFI Ready");
@@ -18,13 +27,13 @@ void WifiMain(void *parameter)
 }
 
 
-// funcoes
+// Functions
 void InitWifi(void)
 {
   xTaskCreate(WifiMain, "WifiMain", 10000, NULL, 1, HandlerWifi);
 }
 
-void setupOTA(const char *ssid, const char *password)
+static void setupOTA(const char *ssid, const char *password)
 {
   WiFi.mode(WIFI_STA);
   WiFi.begin(ssid, password);

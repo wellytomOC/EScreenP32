@@ -1,6 +1,5 @@
 #pragma once
-#include <WiFi.h>
-#include <ArduinoOTA.h>
+
 
 
 //wifi setup
@@ -9,7 +8,5 @@
 
 
 
-//prototipos
+//Public Prototypes
 void InitWifi(void);
-void WifiMain(void *parameter);
-void setupOTA(const char* ssid, const char* password);
