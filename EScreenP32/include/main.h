@@ -17,3 +17,9 @@
 #define LCD_CS 2
 
 #define LCD_ON 26
+
+
+//global parameters
+typedef struct Parametros{
+    bool WifiStatus;
+}Tipo_Parametros;

@@ -1,9 +1,9 @@
 #include <WiFi.h>
 #include <ArduinoOTA.h>
+#include "main.h"
 
-#include "WifiHandler.h"
-
-TaskHandle_t *HandlerWifi;
+TaskHandle_t HandlerWifi;
+extern Tipo_Parametros Parametros;
 
 //private prototypes
 static void WifiMain(void *parameter);
@@ -14,14 +14,15 @@ static void setupOTA(const char* ssid, const char* password);
 static void WifiMain(void *parameter)
 {
   setupOTA(WIFI_SSID, WIFI_PWD);
-  Serial.println("WIFI Ready");
-  Serial.print("IP address: ");
-  Serial.println(WiFi.localIP());
+  Serial.println("OTA Readyyy");
 
   while (1)
   {
     ArduinoOTA.handle();
     delay(2000);
+    
+    /*Serial.print("Stack WIfi high water mark: ");
+    Serial.println(uxTaskGetStackHighWaterMark(HandlerWifi));*/
   }
   vTaskDelete(HandlerWifi);
 }
@@ -30,7 +31,7 @@ static void WifiMain(void *parameter)
 // Functions
 void InitWifi(void)
 {
-  xTaskCreate(WifiMain, "WifiMain", 10000, NULL, 1, HandlerWifi);
+  xTaskCreate(WifiMain, "WifiMain", 8192, NULL, 1, &HandlerWifi);
 }
 
 static void setupOTA(const char *ssid, const char *password)
@@ -39,24 +40,18 @@ static void setupOTA(const char *ssid, const char *password)
   WiFi.begin(ssid, password);
   while (WiFi.waitForConnectResult() != WL_CONNECTED)
   {
-    Serial.println("Connection Failed! Rebooting...");
+    Serial.println("Connection Failed! Retrying in 5 seconds...");
+    Parametros.WifiStatus = false;
     delay(5000);
-    ESP.restart();
+    WiFi.begin(ssid, password);
   }
-
-  // Port defaults to 3232
-  // ArduinoOTA.setPort(3232);
-
-  // Hostname defaults to esp3232-[MAC]
-  // ArduinoOTA.setHostname("myesp32");
-
-  // No authentication by default
-  // ArduinoOTA.setPassword("admin");
-
-  // Password can be set with it's md5 value as well
-  // MD5(admin) = 21232f297a57a5a743894a0e4a801fc3
-  // ArduinoOTA.setPasswordHash("21232f297a57a5a743894a0e4a801fc3");
-
+  Parametros.WifiStatus = true;
+  Serial.println("Connected to WiFi");
+  Serial.print("IP address: ");
+  Serial.println(WiFi.localIP());
+  Serial.println("Setting up OTA...");
+ 
+  
   ArduinoOTA
     .onStart([]() {
       String type;

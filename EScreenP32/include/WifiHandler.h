@@ -1,10 +1,8 @@
 #pragma once
 
-
-
 //wifi setup
-#define WIFI_SSID "IGOR"
-#define WIFI_PWD "991280556n"
+#define WIFI_SSID "BLZ Repibriza"
+#define WIFI_PWD "indaiatuba"
 
 
 
