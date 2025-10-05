@@ -38,7 +38,9 @@ void LvglLoop(void *parameter) {
 // Function to initialize the display
 void InitDisplay() {
     // Initialize TFT
+    Serial.println("Initializing TFT...");
     tft.init();
+    Serial.println("TFT initialized.");
     tft.setRotation(1);  // Landscape mode
 
     //configure touch   
@@ -49,6 +51,16 @@ void InitDisplay() {
     tft.fillScreen(TFT_BLACK);  
 
 
+    while(1){
+        uint16_t x, y;
+        if(tft.getTouch(&x, &y)){
+            Serial.print("Touch at: ");
+            Serial.print(x);
+            Serial.print(", ");
+            Serial.println(y);
+        }
+        delay(100);
+    }
 
 
     // Initialize LVGL

@@ -6,13 +6,8 @@ Tipo_Parametros Parametros;
 
 void setup() {
   Serial.begin(115200);
-  pinMode(LCD_ON, OUTPUT);
-  digitalWrite(LCD_ON, HIGH);
 
-  pinMode(LCD_LED, OUTPUT);
-  digitalWrite(LCD_LED, HIGH); // Turn on the LCD backlight
-
-  delay(1000); // Wait for serial to initialize
+  delay(3000); // Wait for serial to initialize
   InitWifi(); 
   InitDisplay();
   Serial.println("Setup Complete");
